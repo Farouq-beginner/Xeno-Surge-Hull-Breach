@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://d2wnwdi656eqj"]
+
+[ext_resource type="Texture2D" uid="uid://d4k2a0chcflux" path="res://assets/icon.svg" id="1_6614m"]
+[ext_resource type="PackedScene" uid="uid://cyy15j8le8alc" path="res://scenes/player.tscn" id="2_bhu08"]
+[ext_resource type="PackedScene" uid="uid://btythrb0j02gt" path="res://scenes/enemy.tscn" id="3_bhu08"]
+
+[node name="MainLevel" type="Node2D" unique_id=807536696]
+
+[node name="Icon" type="Sprite2D" parent="." unique_id=1476085553]
+modulate = Color(0.2784314, 0.54901963, 0.7490196, 1)
+position = Vector2(220, -93)
+texture = ExtResource("1_6614m")
+
+[node name="Icon2" type="Sprite2D" parent="." unique_id=1092278527]
+position = Vector2(230, 130)
+texture = ExtResource("1_6614m")
+
+[node name="Icon3" type="Sprite2D" parent="." unique_id=431649690]
+position = Vector2(-282, -83)
+texture = ExtResource("1_6614m")
+
+[node name="Icon4" type="Sprite2D" parent="." unique_id=2059050061]
+position = Vector2(-279, 110)
+texture = ExtResource("1_6614m")
+
+[node name="Player" parent="." unique_id=712014135 instance=ExtResource("2_bhu08")]
+position = Vector2(2, 0)
+
+[node name="Enemy" parent="." unique_id=1542467187 instance=ExtResource("3_bhu08")]
+position = Vector2(-623, 369)
+
+[node name="Enemy2" parent="." unique_id=1663184994 instance=ExtResource("3_bhu08")]
+position = Vector2(644, -382)
+
+[node name="Enemy3" parent="." unique_id=1417155185 instance=ExtResource("3_bhu08")]
+position = Vector2(-631, -376)
+
+[node name="Enemy4" parent="." unique_id=1579352768 instance=ExtResource("3_bhu08")]
+position = Vector2(647, 382)
