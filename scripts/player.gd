@@ -1,9 +1,10 @@
 extends CharacterBody2D
 
 const SPEED = 300.0
+var health = 100
 
 # Memuat scene peluru agar siap dipakai
-var bullet_scene = preload("res://bullet.tscn")
+var bullet_scene = preload("res://scenes/bullet.tscn")
 
 func _physics_process(delta):
 	var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -26,3 +27,14 @@ func shoot():
 	
 	# 3. Memasukkan peluru ke dalam level utama (bukan ke dalam player)
 	get_tree().root.add_child(bullet)
+
+# Fungsi untuk menerima serangan
+func take_damage(amount):
+	health -= amount
+	print("Darah Player: ", health) # Muncul di konsol bawah untuk tes
+	if health <= 0:
+		die()
+
+func die():
+	# Pindah ke layar Game Over
+	get_tree().change_scene_to_file("res://scenes/game_over.tscn")

@@ -13,14 +13,15 @@ func _ready():
 
 func _physics_process(delta):
 	if player_target != null:
-		# Menghitung arah dari alien ke player
 		var direction = global_position.direction_to(player_target.global_position)
-		
-		# Mengatur kecepatan berdasarkan arah
 		velocity = direction * SPEED
-		
-		# Membuat alien selalu menghadap ke player
 		look_at(player_target.global_position)
 		
-		# Bergerak!
-		move_and_slide()
+		# Cek tabrakan saat bergerak
+		var collision = move_and_collide(velocity * delta)
+		
+		if collision:
+			var collider = collision.get_collider()
+			# Jika yang ditabrak adalah Player
+			if collider.is_in_group("player"):
+				collider.take_damage(1) # Kurangi darah 1 setiap frame sentuhan

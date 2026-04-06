@@ -1,7 +1,7 @@
 extends Node2D
 
 # Memuat scene alien agar bisa di-spawn
-var enemy_scene = preload("res://enemy.tscn")
+var enemy_scene = preload("res://scenes/enemy.tscn")
 
 func _on_timer_timeout():
 	# 1. Buat instance alien baru

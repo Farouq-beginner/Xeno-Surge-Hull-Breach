@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://bhgejcvo44w37"]
+
+[ext_resource type="Script" uid="uid://btsu51jpbg0di" path="res://scripts/terminal.gd" id="1_sy66w"]
+[ext_resource type="Texture2D" uid="uid://d4k2a0chcflux" path="res://assets/icon.svg" id="2_vs6ym"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_enqfd"]
+size = Vector2(199, 190)
+
+[node name="Terminal" type="Area2D" unique_id=1127342081]
+script = ExtResource("1_sy66w")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=461830652]
+position = Vector2(163, 133)
+texture = ExtResource("2_vs6ym")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1410544777]
+position = Vector2(162.5, 133)
+shape = SubResource("RectangleShape2D_enqfd")
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1286828668]
+offset_left = 96.0
+offset_top = 28.0
+offset_right = 230.0
+offset_bottom = 55.0
+max_value = 3.0
+show_percentage = false
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
