@@ -5,6 +5,12 @@
 [ext_resource type="PackedScene" uid="uid://btythrb0j02gt" path="res://scenes/enemy.tscn" id="3_bq26l"]
 [ext_resource type="PackedScene" uid="uid://c2pg3x4jh5nn0" path="res://scenes/enemy_spawner.tscn" id="4_u2c82"]
 [ext_resource type="PackedScene" uid="uid://bhgejcvo44w37" path="res://scenes/terminal.tscn" id="5_8ra5a"]
+[ext_resource type="AudioStream" uid="uid://biux627id04yv" path="res://assets/Audio/bgm.mp3" id="6_bq26l"]
+
+[sub_resource type="Environment" id="Environment_bq26l"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 1.5
 
 [node name="MainLevel" type="Node2D" unique_id=807536696]
 script = ExtResource("1_qmak7")
@@ -66,3 +72,10 @@ position = Vector2(1171, 221)
 
 [node name="Terminal3" parent="." unique_id=940855677 instance=ExtResource("5_8ra5a")]
 position = Vector2(404, -283)
+
+[node name="BGMPlayer" type="AudioStreamPlayer" parent="." unique_id=1572848003]
+stream = ExtResource("6_bq26l")
+autoplay = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1396136042]
+environment = SubResource("Environment_bq26l")

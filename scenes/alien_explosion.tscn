@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://c8ybdv7j3xxor"]
+
+[ext_resource type="Script" uid="uid://cgi2mk6m16acw" path="res://scripts/alien_explosion.gd" id="1_pvc2m"]
+[ext_resource type="AudioStream" uid="uid://5xd116xyx5wj" path="res://assets/Audio/die.wav" id="2_vp3lf"]
+
+[sub_resource type="Gradient" id="Gradient_vp3lf"]
+colors = PackedColorArray(0, 1.5961324, 0, 1, 0, 0.78039217, 0, 0)
+
+[sub_resource type="Gradient" id="Gradient_pvc2m"]
+colors = PackedColorArray(2.454227, 0, 0, 1, 1, 1, 1, 0)
+
+[node name="AlienExplosion" type="CPUParticles2D" unique_id=1876231461]
+emitting = false
+amount = 30
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.8
+emission_shape = 6
+emission_ring_inner_radius = 0.8
+emission_ring_radius = 15.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 250.0
+damping_min = 80.0
+damping_max = 100.0
+scale_amount_max = 10.0
+color_ramp = SubResource("Gradient_vp3lf")
+color_initial_ramp = SubResource("Gradient_pvc2m")
+script = ExtResource("1_pvc2m")
+
+[node name="ExplosionSFX" type="AudioStreamPlayer2D" parent="." unique_id=316672414]
+stream = ExtResource("2_vp3lf")

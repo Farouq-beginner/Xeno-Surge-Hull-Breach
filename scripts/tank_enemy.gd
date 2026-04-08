@@ -1,18 +1,16 @@
 extends CharacterBody2D
 
-# Kecepatan alien (dibuat lebih lambat dari player agar bisa dihindari)
-const SPEED = 150.0 
-var health = 1 # Darah alien biasa
+const SPEED = 60.0 # JAUH LEBIH LAMBAT
+var health = 5 # BUTUH 5 TEMBAKAN UNTUK MATI
+
 var player_target = null
 var powerup_scene = preload("res://Scenes/power_up.tscn")
-# Memuat scene ledakan agar siap dipakai
-var explosion_scene = preload("res://scenes/alien_explosion.tscn")
+var explosion_scene = preload("res://Scenes/alien_explosion.tscn")
 
 func _ready():
-	# Saat alien muncul, dia akan mencari objek di grup "player"
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
-		player_target = players[0] # Mengunci target ke player pertama yang ditemukan
+		player_target = players[0]
 
 func _physics_process(delta):
 	if player_target != null:
@@ -20,33 +18,38 @@ func _physics_process(delta):
 		velocity = direction * SPEED
 		look_at(player_target.global_position)
 		
-		# Cek tabrakan saat bergerak
 		var collision = move_and_collide(velocity * delta)
-		
 		if collision:
 			var collider = collision.get_collider()
-			# Jika yang ditabrak adalah Player
 			if collider.is_in_group("player"):
-				collider.take_damage(1) # Kurangi darah 1 setiap frame sentuhan
+				# Damage yang diberikan ke pemain bisa dibuat lebih besar, misal 2 atau 3
+				collider.take_damage(2) 
 
 func take_damage(amount):
 	health -= amount
+	# Efek Visual Kecil: Membuat tank berkedip putih saat ditembak (Opsional tapi keren)
+	modulate = Color(10, 10, 10) 
+	await get_tree().create_timer(0.05).timeout
+	modulate = Color(1, 1, 1) # Kembali ke warna asli
+	
 	if health <= 0:
 		die()
 
 func die():
-	# Tambah skor saat alien mati
 	var level = get_tree().current_scene
 	if level.has_method("add_score"):
-		level.add_score(10)
+		level.add_score(50) # Skor lebih besar karena lebih susah dibunuh!
 		
 	var explosion = explosion_scene.instantiate()
 	explosion.global_position = global_position
+	# Membuat ledakannya lebih besar
+	explosion.scale = Vector2(2, 2) 
 	get_tree().root.add_child(explosion)
 	
-		# Peluang 20% menjatuhkan item
+	# Peluang 20% menjatuhkan item
 	if randf() < 0.02:
 		spawn_powerup()
+		
 	queue_free()
 
 func spawn_powerup():
