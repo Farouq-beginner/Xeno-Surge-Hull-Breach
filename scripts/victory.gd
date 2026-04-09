@@ -1,6 +1,8 @@
 extends Control
 
 func _ready():
+	for item in get_tree().get_nodes_in_group("powerups"):
+		item.queue_free()
 	# Set teks label skor akhir
 	$ScoreLabel.text = "Final Score: " + str(GlobalData.final_score)
 

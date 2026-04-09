@@ -47,7 +47,7 @@ func die():
 	get_tree().root.add_child(explosion)
 	
 	# Peluang 20% menjatuhkan item
-	if randf() < 0.02:
+	if randf() < 0.05:
 		spawn_powerup()
 		
 	queue_free()

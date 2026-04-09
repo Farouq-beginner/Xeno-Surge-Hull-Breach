@@ -41,11 +41,20 @@ func _physics_process(delta):
 		shoot()
 
 func collect_powerup(type):
+	var level = get_tree().current_scene
+	
 	if type == 0: # HEALTH
-		health = min(health + 10, 100) # Tambah 30 darah, maks 100
-	elif type == 1: # SPREAD_SHOT
+		health = min(health + 30, 100) # Memastikan darah tidak lebih dari 100
+		if level.has_method("show_notification"):
+			# Mengirimkan warna HIJAU (Red: 0, Green: 1, Blue: 0)
+			level.show_notification("HEALTH RESTORED!", Color(0.2, 1.0, 0.2)) 
+			
+	elif type == 1: # SPREAD SHOT
 		is_spread_shot = true
-		powerup_timer.start(5.0) # Durasi 7 detik
+		powerup_timer.start(7.0)
+		if level.has_method("show_notification"):
+			# Mengirimkan warna KUNING/EMAS (Red: 1, Green: 1, Blue: 0)
+			level.show_notification("OVERDRIVE: SPREAD SHOT!", Color(1.0, 0.8, 0.0))
 
 # Hubungkan sinyal 'timeout' dari PowerUpTimer ke sini
 func _on_power_up_timer_timeout():
@@ -91,5 +100,14 @@ func take_damage(amount):
 		die()
 
 func die():
+	# Reset status power-up
+	is_spread_shot = false
+	powerup_timer.stop()
+	
+	# Bersihkan semua power-up
+	for item in get_tree().get_nodes_in_group("powerups"):
+		item.queue_free()
+
+	
 	# Pindah ke layar Game Over
 	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
