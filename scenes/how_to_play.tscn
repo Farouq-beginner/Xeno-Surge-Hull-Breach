@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://cf1xb07fy2ayh"]
+
+[ext_resource type="Script" uid="uid://ukrq5t7bg0c0" path="res://scripts/how_to_play.gd" id="1_88ieg"]
+[ext_resource type="Texture2D" uid="uid://4rpnj8uyr1cx" path="res://assets/ASSETS/Background.png" id="2_30apa"]
+
+[node name="HowToPlay" type="Control" unique_id=3514477]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_88ieg")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1669306087]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_30apa")
+
+[node name="Label" type="Label" parent="." unique_id=1028025516]
+layout_mode = 0
+offset_left = 397.0
+offset_top = 57.0
+offset_right = 769.0
+offset_bottom = 228.0
+theme_override_font_sizes/font_size = 35
+text = "TATA CARA BERMAIN"
+horizontal_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=204627923]
+layout_mode = 0
+offset_left = 115.0
+offset_top = 103.0
+offset_right = 1019.0
+offset_bottom = 590.0
+theme_override_font_sizes/normal_font_size = 17
+text = "🎮 KONTROL & GERAKAN
+Gunakan tombol W, A, S, D untuk bergerak.
+(Perhatian: Di luar angkasa terdapat efek inersia, karaktermu akan sedikit meluncur saat berhenti!)
+
+🔫 MENEMBAK & OVERHEAT
+Gunakan Mouse untuk membidik.
+Tahan Klik Kiri untuk memberondong tembakan secara otomatis.
+Jangan menembak terlalu brutal! Perhatikan indikator panas, jika mencapai 100%, senjata akan macet (Overheat) dan butuh waktu untuk mendingin.
+
+🎁 ITEM DROP (POWER-UP)
+Alien yang hancur memiliki peluang 2-5% untuk menjatuhkan kotak energi acak:
+
+Kotak Hijau: Memulihkan +20 HP (Darah).
+
+Kotak Kuning: Mengaktifkan Overdrive (Tembakan Menyebar 3 arah) selama 7 detik!
+
+🏆 CARA MENANG (MISI)
+Stasiun angkasa diserang! Bertahanlah hidup dan cari 3 Terminal Reaktor di dalam peta. Dekati dan perbaiki semuanya untuk memenangkan permainan!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="." unique_id=1126269296]
+modulate = Color(0, 1, 1, 1)
+layout_mode = 0
+offset_left = 54.0
+offset_top = 61.0
+offset_right = 207.0
+offset_bottom = 92.0
+text = "KEMBALI KE MENU"
+
+[connection signal="pressed" from="Button" to="." method="_on_back_button_pressed"]

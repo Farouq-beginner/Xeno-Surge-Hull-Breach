@@ -11,24 +11,25 @@ var is_dead = false
 @onready var anim_player = $AnimationPlayer
 @onready var collision_shape = $CollisionShape2D
 
+# --- Tambahan untuk cooldown ---
+var attack_cooldown = 1 # dalam detik
+var can_attack = true
+
 func _ready():
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		player_target = players[0]
 
 func _physics_process(delta):
-	# Jika sudah mati, hentikan semua proses pergerakan
 	if is_dead:
 		return 
 
 	if player_target != null:
-		# Mainkan animasi terbang/jalan selama hidup
 		anim_player.play("fly") # Ganti menjadi "walk" di script tank_enemy.gd
 		
 		var direction = global_position.direction_to(player_target.global_position)
 		velocity = direction * SPEED
 		
-		# Logika Flip (Membalik arah musuh agar tidak terbalik saat ke kiri)
 		if direction.x < 0:
 			$Sprite2D.flip_h = true
 		else:
@@ -37,12 +38,17 @@ func _physics_process(delta):
 		var collision = move_and_collide(velocity * delta)
 		if collision:
 			var collider = collision.get_collider()
-			if collider.is_in_group("player"):
-				# Opsional: Jika di tank_enemy.gd, panggil anim_player.play("attack") di sini
-				collider.take_damage(1) 
+			if collider.is_in_group("player") and can_attack:
+				collider.take_damage(2)
+				start_attack_cooldown()
+
+func start_attack_cooldown():
+	can_attack = false
+	await get_tree().create_timer(attack_cooldown).timeout
+	can_attack = true
 
 func take_damage(amount):
-	if is_dead: return # Cegah damage tambahan jika sudah mati
+	if is_dead: return 
 	
 	health -= amount
 	modulate = Color(10, 10, 10) 
@@ -53,24 +59,20 @@ func take_damage(amount):
 		die()
 
 func die():
-	is_dead = true # Tandai sebagai mati
-	collision_shape.set_deferred("disabled", true) # Matikan hitbox agar tidak melukai pemain lagi
+	is_dead = true
+	collision_shape.set_deferred("disabled", true)
 	
 	var level = get_tree().current_scene
 	if level.has_method("add_score"):
-		level.add_score(10) # 50 untuk Tank
+		level.add_score(10)
 		
-	# Tetap munculkan partikel ledakan hijau (Opsional, hapus jika dirasa terlalu ramai)
 	var explosion = explosion_scene.instantiate()
 	explosion.global_position = global_position
 	get_tree().root.add_child(explosion)
 	
-	# Mainkan animasi mati dari Sprite Sheet
 	anim_player.play("death")
-	
-	# Tunggu sampai animasi mati selesai secara penuh, BARU hapus alien
 	await anim_player.animation_finished
-				# Peluang 20% menjatuhkan item
+	
 	if randf() < 0.02:
 		spawn_powerup()
 	queue_free()
@@ -78,6 +80,5 @@ func die():
 func spawn_powerup():
 	var p = powerup_scene.instantiate()
 	p.global_position = global_position
-	# Pilih tipe secara acak (0 = Health, 1 = Spread Shot)
 	p.current_type = randi() % 2 
 	get_tree().root.add_child(p)

@@ -52,15 +52,16 @@ position = Vector2(173.5, 169.5)
 shape = SubResource("RectangleShape2D_enqfd")
 
 [node name="ProgressBar" type="ProgressBar" parent="." unique_id=1286828668]
-offset_left = 96.0
-offset_top = 28.0
-offset_right = 230.0
-offset_bottom = 55.0
+offset_left = 217.0
+offset_top = 208.0
+offset_right = 263.0
+offset_bottom = 235.0
 max_value = 3.0
 show_percentage = false
 
 [node name="ReactorBase" type="Sprite2D" parent="." unique_id=1086236078]
-position = Vector2(563, 190)
+position = Vector2(554, 147.25)
+scale = Vector2(1, 1.0311476)
 texture = ExtResource("2_vs6ym")
 
 [node name="ReactorCore" type="Sprite2D" parent="." unique_id=1936347015]
