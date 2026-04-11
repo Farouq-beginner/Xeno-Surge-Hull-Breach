@@ -1,7 +1,7 @@
 extends Node2D
 
-var enemy_scene = preload("res://Scenes/enemy.tscn")
-var tank_scene = preload("res://Scenes/tank_enemy.tscn")
+var enemy_scene = preload("res://scenes/enemy.tscn")
+var tank_scene = preload("res://scenes/tank_enemy.tscn")
 
 func _on_timer_timeout():
 	var enemy

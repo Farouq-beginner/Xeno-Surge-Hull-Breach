@@ -50,4 +50,4 @@ func win_game():
 	
 	GlobalData.final_score = score
 	# Berpindah ke scene kemenangan
-	get_tree().change_scene_to_file("res://Scenes/victory.tscn")
+	get_tree().change_scene_to_file("res://scenes/victory.tscn")

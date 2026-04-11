@@ -1,20 +1,54 @@
 [gd_scene format=3 uid="uid://bhgejcvo44w37"]
 
 [ext_resource type="Script" uid="uid://btsu51jpbg0di" path="res://scripts/terminal.gd" id="1_sy66w"]
-[ext_resource type="Texture2D" uid="uid://d4k2a0chcflux" path="res://assets/icon.svg" id="2_vs6ym"]
+[ext_resource type="Texture2D" uid="uid://bmddxiul3rmv1" path="res://assets/Invasion/Map/Sheets/Reactor.png" id="2_vs6ym"]
+[ext_resource type="Texture2D" uid="uid://d0ls4tw2utjx0" path="res://assets/Invasion/Map/Sheets/CoresAnimationSheet.png" id="3_dhnb1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_enqfd"]
-size = Vector2(199, 190)
+size = Vector2(221, 263)
+
+[sub_resource type="Animation" id="Animation_vs6ym"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ReactorCore:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(7, 5, 53, 75)]
+}
+
+[sub_resource type="Animation" id="Animation_dhnb1"]
+resource_name = "core_activation"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ReactorCore:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(7, 164, 53, 76), Rect2(75, 164, 53, 76), Rect2(142, 164, 53, 76), Rect2(210, 164, 53, 76)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4vtf0"]
+_data = {
+&"RESET": SubResource("Animation_vs6ym"),
+&"core_activation": SubResource("Animation_dhnb1")
+}
 
 [node name="Terminal" type="Area2D" unique_id=1127342081]
 script = ExtResource("1_sy66w")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=461830652]
-position = Vector2(163, 133)
-texture = ExtResource("2_vs6ym")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1410544777]
-position = Vector2(162.5, 133)
+position = Vector2(173.5, 169.5)
 shape = SubResource("RectangleShape2D_enqfd")
 
 [node name="ProgressBar" type="ProgressBar" parent="." unique_id=1286828668]
@@ -24,6 +58,20 @@ offset_right = 230.0
 offset_bottom = 55.0
 max_value = 3.0
 show_percentage = false
+
+[node name="ReactorBase" type="Sprite2D" parent="." unique_id=1086236078]
+position = Vector2(563, 190)
+texture = ExtResource("2_vs6ym")
+
+[node name="ReactorCore" type="Sprite2D" parent="." unique_id=1936347015]
+position = Vector2(183, 188)
+scale = Vector2(3, 3)
+texture = ExtResource("3_dhnb1")
+region_enabled = true
+region_rect = Rect2(7, 5, 53, 75)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1607715210]
+libraries/ = SubResource("AnimationLibrary_4vtf0")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

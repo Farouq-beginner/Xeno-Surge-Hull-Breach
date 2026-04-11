@@ -1,18 +1,116 @@
 [gd_scene format=3 uid="uid://btythrb0j02gt"]
 
 [ext_resource type="Script" uid="uid://154hwf4lewym" path="res://scripts/enemy.gd" id="1_md0e3"]
-[ext_resource type="Texture2D" uid="uid://d4k2a0chcflux" path="res://assets/icon.svg" id="2_4ra3w"]
+[ext_resource type="Texture2D" uid="uid://ckucomd02lpd1" path="res://assets/Invasion/Aliens/FlyingAlien/FlySheet.png" id="2_md0e3"]
+[ext_resource type="Texture2D" uid="uid://crm0ag1uao57i" path="res://assets/Invasion/Aliens/FlyingAlien/DeathSpriteSheet.png" id="3_4ra3w"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4gyqm"]
-size = Vector2(78, 78)
+[sub_resource type="CircleShape2D" id="CircleShape2D_4ra3w"]
+radius = 25.019993
+
+[sub_resource type="Animation" id="Animation_5uy6h"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_md0e3")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(30, 15, 39, 24)]
+}
+
+[sub_resource type="Animation" id="Animation_xwavj"]
+resource_name = "death"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_4ra3w")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(3, 10, 39, 24), Rect2(47, 4, 37, 30), Rect2(96, 3, 22, 31), Rect2(135, 3, 20, 31), Rect2(175, 3, 22, 31)]
+}
+
+[sub_resource type="Animation" id="Animation_c4w8v"]
+resource_name = "fly"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_md0e3")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(30, 15, 39, 24), Rect2(78, 22, 39, 17), Rect2(136, 23, 31, 18), Rect2(181, 23, 39, 16)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xwavj"]
+_data = {
+&"RESET": SubResource("Animation_5uy6h"),
+&"death": SubResource("Animation_xwavj"),
+&"fly": SubResource("Animation_c4w8v")
+}
 
 [node name="Enemy" type="CharacterBody2D" unique_id=1542467187 groups=["enemy"]]
+collision_layer = 1
+collision_mask = 3
 script = ExtResource("1_md0e3")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1737095170]
-modulate = Color(0, 1, 0, 1)
-scale = Vector2(0.6, 0.6)
-texture = ExtResource("2_4ra3w")
+scale = Vector2(3, 3)
+texture = ExtResource("2_md0e3")
+region_enabled = true
+region_rect = Rect2(30, 15, 39, 24)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=951134180]
-shape = SubResource("RectangleShape2D_4gyqm")
+position = Vector2(-2, 12)
+shape = SubResource("CircleShape2D_4ra3w")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=335939430]
+libraries/ = SubResource("AnimationLibrary_xwavj")

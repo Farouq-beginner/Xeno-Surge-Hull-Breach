@@ -1,50 +1,76 @@
 extends CharacterBody2D
 
-# Kecepatan alien (dibuat lebih lambat dari player agar bisa dihindari)
-const SPEED = 150.0 
-var health = 1 # Darah alien biasa
+const SPEED = 150.0 # Gunakan 60.0 untuk Tank
+var health = 1 # Gunakan 5 untuk Tank
 var player_target = null
-var powerup_scene = preload("res://Scenes/power_up.tscn")
-# Memuat scene ledakan agar siap dipakai
+var powerup_scene = preload("res://scenes/power_up.tscn")
 var explosion_scene = preload("res://scenes/alien_explosion.tscn")
 
+# Variabel baru untuk animasi
+var is_dead = false
+@onready var anim_player = $AnimationPlayer
+@onready var collision_shape = $CollisionShape2D
+
 func _ready():
-	# Saat alien muncul, dia akan mencari objek di grup "player"
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
-		player_target = players[0] # Mengunci target ke player pertama yang ditemukan
+		player_target = players[0]
 
 func _physics_process(delta):
+	# Jika sudah mati, hentikan semua proses pergerakan
+	if is_dead:
+		return 
+
 	if player_target != null:
+		# Mainkan animasi terbang/jalan selama hidup
+		anim_player.play("fly") # Ganti menjadi "walk" di script tank_enemy.gd
+		
 		var direction = global_position.direction_to(player_target.global_position)
 		velocity = direction * SPEED
-		look_at(player_target.global_position)
 		
-		# Cek tabrakan saat bergerak
+		# Logika Flip (Membalik arah musuh agar tidak terbalik saat ke kiri)
+		if direction.x < 0:
+			$Sprite2D.flip_h = true
+		else:
+			$Sprite2D.flip_h = false
+			
 		var collision = move_and_collide(velocity * delta)
-		
 		if collision:
 			var collider = collision.get_collider()
-			# Jika yang ditabrak adalah Player
 			if collider.is_in_group("player"):
-				collider.take_damage(1) # Kurangi darah 1 setiap frame sentuhan
+				# Opsional: Jika di tank_enemy.gd, panggil anim_player.play("attack") di sini
+				collider.take_damage(1) 
 
 func take_damage(amount):
+	if is_dead: return # Cegah damage tambahan jika sudah mati
+	
 	health -= amount
+	modulate = Color(10, 10, 10) 
+	await get_tree().create_timer(0.05).timeout
+	modulate = Color(1, 1, 1)
+	
 	if health <= 0:
 		die()
 
 func die():
-	# Tambah skor saat alien mati
+	is_dead = true # Tandai sebagai mati
+	collision_shape.set_deferred("disabled", true) # Matikan hitbox agar tidak melukai pemain lagi
+	
 	var level = get_tree().current_scene
 	if level.has_method("add_score"):
-		level.add_score(10)
+		level.add_score(10) # 50 untuk Tank
 		
+	# Tetap munculkan partikel ledakan hijau (Opsional, hapus jika dirasa terlalu ramai)
 	var explosion = explosion_scene.instantiate()
 	explosion.global_position = global_position
 	get_tree().root.add_child(explosion)
 	
-		# Peluang 20% menjatuhkan item
+	# Mainkan animasi mati dari Sprite Sheet
+	anim_player.play("death")
+	
+	# Tunggu sampai animasi mati selesai secara penuh, BARU hapus alien
+	await anim_player.animation_finished
+				# Peluang 20% menjatuhkan item
 	if randf() < 0.02:
 		spawn_powerup()
 	queue_free()

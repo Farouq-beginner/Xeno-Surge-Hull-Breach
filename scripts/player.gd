@@ -12,6 +12,7 @@ var bullet_scene = preload("res://scenes/bullet.tscn")
 @onready var weapon_sprite = $WeaponPivot/WeaponSprite
 @onready var shoot_point = $WeaponPivot/ShootPoint
 @onready var camera = $Camera2D
+@onready var anim_player = $AnimationPlayer
 
 var is_spread_shot = false
 @onready var powerup_timer = $PowerUpTimer
@@ -21,6 +22,12 @@ func _physics_process(delta):
 	var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = input_dir * SPEED
 	move_and_slide()
+	
+	# LOGIKA ANIMASI
+	if input_dir != Vector2.ZERO:
+		anim_player.play("walk")
+	else:
+		anim_player.play("idle")
 	
 # 2. Rotasi Senjata
 	var mouse_pos = get_global_mouse_position()

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dn0x24p3magur"]
 
 [ext_resource type="Script" uid="uid://bk33ly3ygk513" path="res://scripts/game_over.gd" id="1_y26ei"]
+[ext_resource type="Texture2D" uid="uid://4rpnj8uyr1cx" path="res://assets/ASSETS/Background.png" id="2_wqhvx"]
 
 [node name="GameOver" type="Control" unique_id=2009301952]
 layout_mode = 3
@@ -10,6 +11,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_y26ei")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=413417502]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_wqhvx")
 
 [node name="Label" type="Label" parent="." unique_id=1965668968]
 layout_mode = 1
